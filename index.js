@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(data => readExcelData(data))
     .then(data => {
       excelData = data;
+      console.log(excelData); // Aquí tienes los datos del archivo Excel
     })
     .catch(error => {
       console.error('Error fetching Excel file:', error);
@@ -19,18 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function readExcelData(data) {
     return new Promise((resolve, reject) => {
-      try {
-        const workbook = XLSX.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-        resolve(jsonData);
-      } catch (error) {
-        reject(error);
-      }
+        try {
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0]; // Suponiendo que quieres leer la primera hoja
+            const worksheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            resolve(jsonData);
+        } catch (error) {
+            reject(error);
+        }
     });
-  }
-
+}
   function handleFormSubmit(event) {
     event.preventDefault();
 
